@@ -2,7 +2,7 @@ import { IsArray, IsIn, IsInt, IsNumber, IsOptional, IsPositive, IsString, MinLe
 
 export class CreateProductDto {
 
-    @IsNumber()
+    @IsString()
     @MinLength(1)
     title: string;
 
