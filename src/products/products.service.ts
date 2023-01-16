@@ -1,6 +1,7 @@
 import { Logger, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { validate as isUUID } from 'uuid'
 
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -41,10 +42,22 @@ export class ProductsService {
     })
   }
 
-  async findOne(id: string) {
-    const product = await this.productsRepository.findOneBy({ id });
+  async findOne(term: string) {
+
+    let product: Product;
+    if( isUUID(term) ) {
+      product = await this.productsRepository.findOneBy({ id: term });
+    } else {
+      const queryBuilder = this.productsRepository.createQueryBuilder();
+      product = await queryBuilder
+        .where('UPPER(title) =:title or slug =:slug', {
+          title: term.toUpperCase(),
+          slug: term.toLowerCase()
+        }).getOne();
+    }
+    
     if( !product )
-      throw new BadRequestException(`Product with id ${id} not found`);
+      throw new BadRequestException(`Product with term ${term} not found`);
     return product;
   }
 
