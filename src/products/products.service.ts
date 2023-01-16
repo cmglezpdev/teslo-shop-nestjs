@@ -48,6 +48,7 @@ export class ProductsService {
     if( isUUID(term) ) {
       product = await this.productsRepository.findOneBy({ id: term });
     } else {
+      // TODO: crear una busqueda mas completa con leventein
       const queryBuilder = this.productsRepository.createQueryBuilder();
       product = await queryBuilder
         .where('UPPER(title) =:title or slug =:slug', {
