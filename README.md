@@ -23,7 +23,12 @@ yarn install
 docker-compose up -d
 ```
 
-5. Levantar la aplicación en producción
+5. Ejecutar Seed para llenar la base de datos
+```bash
+GET http://localhost:3000/api/seed
+```
+
+6. Levantar la aplicación en producción
 ```bash
 yarn start:dev
 ```
