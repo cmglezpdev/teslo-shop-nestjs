@@ -1,5 +1,6 @@
 import { Response } from 'express';
 import { Controller, Post, UploadedFile, UseInterceptors, ParseFilePipe, Get, Param, Res } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 
@@ -9,7 +10,8 @@ import { fileFilter, fileNamer, FileTypeValidator, MaxFileSizeValidator } from '
 @Controller('files')
 export class FilesController {
   constructor(
-    private readonly filesService: FilesService
+    private readonly filesService: FilesService,
+    private readonly configService: ConfigService,
   ) {}
 
   @Get('product/:imageName')
@@ -42,7 +44,7 @@ export class FilesController {
     ) file: Express.Multer.File
   ) {
 
-    const secureUrl = `${file.filename}`
+    const secureUrl = `${this.configService.get('HOST_API')}/files/product/${file.filename}`
 
     return { secureUrl };
   }
