@@ -1,4 +1,5 @@
-import { Controller, Post, UploadedFile, UseInterceptors, ParseFilePipe } from '@nestjs/common';
+import { Response } from 'express';
+import { Controller, Post, UploadedFile, UseInterceptors, ParseFilePipe, Get, Param, Res } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 
@@ -10,6 +11,15 @@ export class FilesController {
   constructor(
     private readonly filesService: FilesService
   ) {}
+
+  @Get('product/:imageName')
+  findProductImage(
+    @Res() res: Response,
+    @Param('imageName') imageName: string,
+  ) {
+    const path = this.filesService.getStaticProductImage(imageName);
+    res.sendFile(path);
+  }
 
   @Post('product')
   // @UseInterceptors( FileInterceptor('file', { fileFilter }) )  // filter using fileFilter
@@ -31,6 +41,9 @@ export class FilesController {
       })
     ) file: Express.Multer.File
   ) {
-    return file;
+
+    const secureUrl = `${file.filename}`
+
+    return { secureUrl };
   }
 }
