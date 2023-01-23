@@ -3,5 +3,6 @@
 
 /postgres
 .env
+/static
 
 yarn-error.log
