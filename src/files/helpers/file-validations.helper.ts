@@ -20,19 +20,14 @@ import { FileValidator } from "@nestjs/common";
 
 export class MaxFileSizeValidator extends FileValidator<{ maxSize: number }> {
     isValid(file?: any): boolean | Promise<boolean> {
-        if( !file )
-            this.buildErrorMessage(null);
-        
         if( file.size <= this.validationOptions.maxSize )
             return true;
-        
-        throw new Error( this.buildErrorMessage(file) );
+        return false;
     }
 
     buildErrorMessage(file: any): string {
-        if( !file ) return "File is required.";	
         if( file.size > this.validationOptions.maxSize )
-            return `File size should be less than ${this.validationOptions.maxSize/1024} MB.`;
+            return `File size should be less than ${this.validationOptions.maxSize/2048} MB.`;
         
         return "File size is invalid.";
     }
@@ -41,17 +36,13 @@ export class MaxFileSizeValidator extends FileValidator<{ maxSize: number }> {
 
 export class FileTypeValidator extends FileValidator<{ allowedFileTypes: string[] }> {
     isValid(file?: any): boolean | Promise<boolean> {
-        if( !file )
-            this.buildErrorMessage(null);
-        
-        if( this.validationOptions.allowedFileTypes.includes(file.mimetype) )
+        if( this.validationOptions.allowedFileTypes.includes(file?.mimetype) )
             return true;
         
-        throw new Error( this.buildErrorMessage(file) );
+        return false;
     }
 
     buildErrorMessage(file: any): string {
-        if( !file ) return "File is required.";
         if( !this.validationOptions.allowedFileTypes.includes(file.mimetype) )
             return `File type should be one of: ${this.validationOptions.allowedFileTypes.join(", ")}`;
         
