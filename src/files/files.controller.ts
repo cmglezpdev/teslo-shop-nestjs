@@ -3,10 +3,12 @@ import { Controller, Post, UploadedFile, UseInterceptors, ParseFilePipe, Get, Pa
 import { ConfigService } from '@nestjs/config';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
+import { ApiTags } from '@nestjs/swagger';
 
 import { FilesService } from './files.service';
 import { fileFilter, fileNamer, FileTypeValidator, MaxFileSizeValidator } from './helpers';
 
+@ApiTags('Files')
 @Controller('files')
 export class FilesController {
   constructor(
