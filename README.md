@@ -6,29 +6,34 @@
 
 # Teslo Shop API
 
-1. Clonar el repositiorio
+1. Clone the repository.
 ```bash
 git clone https://github.com/cmglezpdev/teslo-shop-nestjs.git
 ```
 
-2. Instalar dependencias
+2. Install dependencies.
 ```bash
 yarn install
 ```
 
-3. Clonar el archivo `.env.template` a `.env` y llenar las variables de entorno
+3. Clone the file `.env.template` to `.env` and fill the environment varaibles.
 
-4. Levantar la base de datos
+4. Up the Database
 ```bash
 docker-compose up -d
 ```
 
-5. Ejecutar Seed para llenar la base de datos
+5. Execute the Seed to fill the database.
 ```bash
-GET http://localhost:3000/api/seed
+GET /api/seed
 ```
 
-6. Levantar la aplicación en producción
+6. Up the application in development mode.
 ```bash
 yarn start:dev
 ```
+
+
+## Documentation
+
+All documentation of the endpoints is in `/api` and was created with `Swagger API`.
