@@ -23,6 +23,14 @@ export class AuthController {
     return this.authService.login(loginUserDto);
   }
 
+  @Get('check-status')
+  @Auth()
+  checkStatus(
+    @GetUser() user: User
+  ) {
+    return this.authService.checkAuthStatus(user);
+  }
+
   // endpoint to get information of the request(practice)
   @Get('private')
   @UseGuards( AuthGuard() )
