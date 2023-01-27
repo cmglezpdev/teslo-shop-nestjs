@@ -12,44 +12,77 @@ export class CreateProductDto {
     @MinLength(1)
     title: string;
 
-    @ApiProperty()
+    @ApiProperty({
+        description: 'Product Sizes',
+        type: [String]
+    })
     @IsString({  each: true })
     @IsArray()
     sizes: string[];
 
-    @ApiProperty()
+    @ApiProperty({
+        description: 'Product Gender',
+        enum: ['men', 'women', 'kid', 'unisex']
+    })
     @IsIn(['men', 'women', 'kid', 'unisex'])
     gender: string;
 
-    @ApiProperty()
+    @ApiProperty({
+        description: 'Product description',
+        required: false,
+    })
     @IsString()
     @IsOptional()
     description?: string;
     
-    @ApiProperty()
+    @ApiProperty({
+        description: 'Product price',
+        required: false,
+        minimum: 0,
+        default: 0
+    })
     @IsNumber()
     @IsPositive()
     @IsOptional()
     price?: number;
 
-    @ApiProperty()
+    @ApiProperty( {
+        description: 'Product slug (for SEO)',
+        required: false,
+        default: '<The product title>'
+    })
     @IsString()
     @IsOptional()
     slug?: string;
 
-    @ApiProperty()
+    @ApiProperty({
+        description: 'Amount of the product',
+        default: 0,
+        minimum: 0,
+        required: false
+    })
     @IsInt()
     @IsPositive()
     @IsOptional()
     stock?: number;
 
-    @ApiProperty()
+    @ApiProperty({
+        description: 'Product tags and categories',
+        type: [String],
+        minItems: 1
+    })
     @IsArray()
     @IsString({ each: true })
     @IsOptional()
     tags: string[];
 
-    @ApiProperty()
+    @ApiProperty({
+        description: 'Product images',
+        type: [String],
+        minItems: 1,
+        required: false,
+        nullable: true
+    })
     @IsArray()
     @IsString({ each: true })
     @IsOptional()
