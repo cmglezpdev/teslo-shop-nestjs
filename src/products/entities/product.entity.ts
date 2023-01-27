@@ -1,14 +1,13 @@
-import { User } from "src/auth/entities/user.entity";
 import { BeforeInsert, BeforeUpdate, Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { ApiProperty } from "@nestjs/swagger";
 
+import { User } from "src/auth/entities/user.entity";
 import { ProductImage } from "./product-image.entity";
 
 @Entity({ name: 'products' })
 export class Product {
 
     @ApiProperty({
-        example: '1a2b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p',
         description: 'Product Id',
         uniqueItems: true,
     })
@@ -16,7 +15,6 @@ export class Product {
     id: string;
     
     @ApiProperty({
-        example: 'T-Shirt Teslo',
         description: 'Product Title',
         uniqueItems: true,
     })
@@ -24,22 +22,19 @@ export class Product {
     title: string;
 
     @ApiProperty({
-        example: 0,
-        description: 'Price',
+        description: 'Product Price',
     })
     @Column('float', { default: 0 })
     price: number;
 
     @ApiProperty({
-        example: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
-        description: 'Description',
+        description: 'Product Description',
         default: null
     })
     @Column('text', { nullable: true })
     description: string;
 
     @ApiProperty({
-        example: 't_shirt_teslo',
         description: 'Product SLUG - for SEO',
         uniqueItems: true
     })
@@ -47,7 +42,6 @@ export class Product {
     slug: string;
 
     @ApiProperty({
-        example: 10,
         description: 'Product Stock',
         default: 0	
     })
@@ -55,30 +49,29 @@ export class Product {
     stock: number;
 
     @ApiProperty({
-        example: ['S', 'M', 'L', 'XL'],
         description: 'Product Sizes',
     })
     @Column('text', { array: true })
     sizes: string[];
 
     @ApiProperty({
-        example: 'women',
         description: 'Product gender',
     })
     @Column('text')
     gender: string;
 
     @ApiProperty({
-        example: ['t-shirt', 'clothes', 'clothing'],
         description: 'Product Tags',
         default: []
     })
     @Column('text', { array: true, default: [] })
     tags: string[];
 
-    // TODO: SEGUIR AQUI
-
-    @ApiProperty()
+    @ApiProperty({
+        description: 'Product Images',
+        required: false,
+        type: [ProductImage]
+    })
     @OneToMany(
         () => ProductImage, 
         productImage => productImage.product,
@@ -86,6 +79,11 @@ export class Product {
     )
     images?: ProductImage[];
 
+    @ApiProperty({
+        description: 'User that created this product',
+        uniqueItems: true,
+        type: User
+    })
     @ManyToOne(
         () => User,
         (user) => user.product,

@@ -4,6 +4,7 @@ import { ApiProperty } from '@nestjs/swagger';
 export class CreateProductDto {
 
     @ApiProperty({
+        example: 'T-Shirt Teslo',
         description: 'Product Title',
         nullable: false,
         minLength: 1
@@ -13,6 +14,7 @@ export class CreateProductDto {
     title: string;
 
     @ApiProperty({
+        example: ['S', 'M', 'L', 'XL', 'XXL'],
         description: 'Product Sizes',
         type: [String]
     })
@@ -21,6 +23,7 @@ export class CreateProductDto {
     sizes: string[];
 
     @ApiProperty({
+        example: 'men',
         description: 'Product Gender',
         enum: ['men', 'women', 'kid', 'unisex']
     })
@@ -28,6 +31,7 @@ export class CreateProductDto {
     gender: string;
 
     @ApiProperty({
+        example: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
         description: 'Product description',
         required: false,
     })
@@ -36,6 +40,7 @@ export class CreateProductDto {
     description?: string;
     
     @ApiProperty({
+        example: 305.99,
         description: 'Product price',
         required: false,
         minimum: 0,
@@ -47,6 +52,7 @@ export class CreateProductDto {
     price?: number;
 
     @ApiProperty( {
+        example: 't_shirt_teslo',
         description: 'Product slug (for SEO)',
         required: false,
         default: '<The product title>'
@@ -56,6 +62,7 @@ export class CreateProductDto {
     slug?: string;
 
     @ApiProperty({
+        example: 5,
         description: 'Amount of the product',
         default: 0,
         minimum: 0,
@@ -67,6 +74,7 @@ export class CreateProductDto {
     stock?: number;
 
     @ApiProperty({
+        example: ['t-shirt', 'clothes', 'clothing'],
         description: 'Product tags and categories',
         type: [String],
         minItems: 1
@@ -77,6 +85,7 @@ export class CreateProductDto {
     tags: string[];
 
     @ApiProperty({
+        example: ['t-shirt-teslo.jpg', 't-shirt-teslo-2.jpg'],
         description: 'Product images',
         type: [String],
         minItems: 1,
