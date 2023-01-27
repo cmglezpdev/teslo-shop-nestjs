@@ -47,7 +47,7 @@ export class User {
 
     @ApiProperty({
         description: 'Product that the user created',
-        type: Product,
+        type: () => Product,
     })
     @OneToMany(
         () => Product,
