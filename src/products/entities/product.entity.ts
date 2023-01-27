@@ -23,6 +23,7 @@ export class Product {
 
     @ApiProperty({
         description: 'Product Price',
+        default: 0,
     })
     @Column('float', { default: 0 })
     price: number;
@@ -36,7 +37,8 @@ export class Product {
 
     @ApiProperty({
         description: 'Product SLUG - for SEO',
-        uniqueItems: true
+        uniqueItems: true,
+        default: '<Product title>'
     })
     @Column('text', { unique: true })
     slug: string;

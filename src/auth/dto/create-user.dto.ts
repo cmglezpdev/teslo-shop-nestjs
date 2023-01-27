@@ -5,8 +5,8 @@ import { IsEmail, IsString, Matches, MaxLength, MinLength } from "class-validato
 export class CreateUserDto {
 
     @ApiProperty({
-        description: 'User email',
         example: 'email@example.com',
+        description: 'User email',
     })
     @IsString()
     @IsEmail()

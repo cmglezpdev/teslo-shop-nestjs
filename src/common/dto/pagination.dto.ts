@@ -6,7 +6,9 @@ import { Type } from 'class-transformer';
 export class PaginationDto {
 
     @ApiProperty({
-        required: false, default: 10, description: 'How many rows do you need?'
+        description: 'How many rows do you need?',
+        required: false, 
+        default: 10,
     })
     @IsOptional()
     @IsPositive()
@@ -14,7 +16,9 @@ export class PaginationDto {
     limit?: number;
     
     @ApiProperty({
-        required: false, default: 0, description: 'How many rows do you want skip?'
+        description: 'How many rows do you want skip?',
+        required: false,
+        default: 0,
     })
     @IsOptional()
     @Min(0)   
