@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { ParseUUIDPipe, Query } from '@nestjs/common';
-import { ApiTags, ApiOkResponse, ApiBadRequestResponse, ApiCreatedResponse, ApiForbiddenResponse } from '@nestjs/swagger';
+import { ApiTags, ApiOkResponse, ApiBadRequestResponse, ApiCreatedResponse, ApiForbiddenResponse, ApiParam } from '@nestjs/swagger';
 
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -37,6 +37,7 @@ export class ProductsController {
 
   @ApiOkResponse({ description: 'Product found', type: Product })
   @ApiBadRequestResponse({ description: 'Product not found' })
+  @ApiParam({ type: String, name: 'term', description: 'Any properties of a product that you want to search' })
   @Get(':term')
   findOne(@Param('term') term: string) {
     return this.productsService.findOnePlain(term);
@@ -45,6 +46,7 @@ export class ProductsController {
   @ApiOkResponse({ description: 'Product updated', type: Product })
   @ApiBadRequestResponse({ description: 'Product not found' })
   @ApiForbiddenResponse({ description: 'Forbinden. Token related'})
+  @ApiParam({ type: 'String(UUID)', name: 'id', description: 'Product id to search' })
   @Patch(':id')
   // @Auth(ValidRoles.superUser, ValidRoles.admin)
   @Auth()
@@ -52,13 +54,14 @@ export class ProductsController {
     @Param('id', ParseUUIDPipe) id: string, 
     @Body() updateProductDto: UpdateProductDto,
     @GetUser() user: User,
-  ) {
-    return this.productsService.update(id, updateProductDto, user);
-  }
-
-  @ApiOkResponse({ description: 'Product deleted', type: Product })
-  @ApiBadRequestResponse({ description: 'Product not found' })
-  @ApiForbiddenResponse({ description: 'Forbinden. Token related'})
+    ) {
+      return this.productsService.update(id, updateProductDto, user);
+    }
+    
+    @ApiOkResponse({ description: 'Product deleted', type: Product })
+    @ApiBadRequestResponse({ description: 'Product not found' })
+    @ApiForbiddenResponse({ description: 'Forbinden. Token related'})
+    @ApiParam({ type: 'String(UUID)', name: 'id', description: 'Product id to search' })
   @Delete(':id')
   @Auth(ValidRoles.superUser, ValidRoles.admin)
   remove(@Param('id', ParseUUIDPipe) id: string) {
