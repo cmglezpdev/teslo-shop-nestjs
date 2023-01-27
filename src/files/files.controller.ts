@@ -3,10 +3,13 @@ import { Controller, Post, UploadedFile, UseInterceptors, ParseFilePipe, Get, Pa
 import { ConfigService } from '@nestjs/config';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
+import { ApiBadRequestResponse, ApiOkResponse, ApiTags, ApiCreatedResponse, ApiParam, ApiBody } from '@nestjs/swagger';
 
 import { FilesService } from './files.service';
 import { fileFilter, fileNamer, FileTypeValidator, MaxFileSizeValidator } from './helpers';
+import { FileUploadDto } from './dto/file-upload.dto';
 
+@ApiTags('Files')
 @Controller('files')
 export class FilesController {
   constructor(
@@ -14,6 +17,9 @@ export class FilesController {
     private readonly configService: ConfigService,
   ) {}
 
+  @ApiOkResponse({ description: 'Product Image founded', type: String })
+  @ApiBadRequestResponse({ description: 'Product Image not found' })
+  @ApiParam({ name: 'imageName', description: 'Image name', type: String })
   @Get('product/:imageName')
   findProductImage(
     @Res() res: Response,
@@ -23,6 +29,10 @@ export class FilesController {
     res.sendFile(path);
   }
 
+  @ApiCreatedResponse({ description: 'Add Image to the product', type: String })
+  @ApiBadRequestResponse({ description: 'Bad Request. You need to send a image.' })
+  @ApiBadRequestResponse({ description: 'Bad Request. The file is not an image.' })
+  @ApiBody({ type: FileUploadDto, description: 'Image to upload' })
   @Post('product')
   // @UseInterceptors( FileInterceptor('file', { fileFilter }) )  // filter using fileFilter
   @UseInterceptors( FileInterceptor('file', {
